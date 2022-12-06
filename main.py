@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 # carrega a base de dados
 df = pd.read_csv('drugs/drugs_and_riskfactors.csv')
 
-st.title('Realizar uma estimativa se a pessoa tem a tendencia a utilizar algum tipo de droga')
+st.header('Realizar uma estimativa se a pessoa tem a tendencia a utilizar algum tipo de droga')
 
 quali = ["age", "education",
         "father", "mother", 
