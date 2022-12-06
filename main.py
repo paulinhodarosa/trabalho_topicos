@@ -126,12 +126,12 @@ renda_registro = st.slider('Registre a renda da pessoa: ', income_min, income_ma
 ausencia_pai = st.radio('A pessoa tem o Pai Ausente? ', options=pai)
 ausencia_mae = st.radio('A pessoa tem a Mae Ausente? ', options=mae)
 
-uso_meta = [st.number_input('A pessoa faz o uso de metanfetamina? ', step=1, value=0, max_value=1)]
-uso_maconha = [st.number_input('A pessoa faz o uso de maconha(marijuana)?', step=1, value=0, max_value=1)]
-uso_heroina = [st.number_input('A pessoa faz o uso de heroína? ', step=1, value=0, max_value=1)]
-uso_alcool = [st.number_input('A pessoa consome alcool? ', step=1, value=0, max_value=1)]
-uso_cigarro = [st.number_input('A pessoa consome cigarros? ', step=1, value=0, max_value=1)]
-uso_cocaina = [st.number_input('A pessoa faz o uso de cocaina? ', step=1, value=0, max_value=1)]
+uso_meta = [st.number_input('A pessoa faz o uso de metanfetamina? ', step=1, min_value=0, max_value=1)]
+uso_maconha = [st.number_input('A pessoa faz o uso de maconha(marijuana)?', step=1, min_value=0, max_value=1)]
+uso_heroina = [st.number_input('A pessoa faz o uso de heroína? ', step=1, min_value=0, max_value=1)]
+uso_alcool = [st.number_input('A pessoa consome alcool? ', step=1, min_value=0, max_value=1)]
+uso_cigarro = [st.number_input('A pessoa consome cigarros? ', step=1, min_value=0, max_value=1)]
+uso_cocaina = [st.number_input('A pessoa faz o uso de cocaina? ', step=1, min_value=0, max_value=1)]
 pd.get_dummies(df[quali])
 
 vals = ['0',  #pai_presente
@@ -222,3 +222,4 @@ if int(res[0]) == 0:
     st.write('A pessoa tem tendencia a não usar crack')
 else:
     st.write("A pessoa tem tendencia a usar crack")
+
