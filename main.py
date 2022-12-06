@@ -2,33 +2,13 @@ import streamlit as st
 import numpy as np #Numpy
 import pandas as pd #Pandas
 import matplotlib.pyplot as plt #Matplotlib
-from sklearn.linear_model import LinearRegression #Regressão linear
-from sklearn import metrics #Cálculo do erro
-import matplotlib_inline
-import matplotlib
 from sklearn import tree
 from sklearn.model_selection import train_test_split
 
 # carrega a base de dados
 df = pd.read_csv('drugs/drugs_and_riskfactors.csv')
 
-# df = {
-#     "age": [1],
-#     "education": [2],
-#     "father": [4],
-#     "mother": [8],
-#     "income": [16],
-#     "race": [32],
-#     "sex": [64],
-#     "employment": [128],
-#     "alcohol": [256],
-#     "cigarettes": [512], 
-#     "cocaine": [1024],
-#     "crack": [2048], 
-#     "heroin": [4096],
-#     "marijuana": [8192], 
-#     "meth": [16384]
-# }
+st.title('Realizar uma estimativa se a pessoa tem a tendencia a utilizar algum tipo de droga')
 
 quali = ["age", "education",
         "father", "mother", 
@@ -85,8 +65,31 @@ sex_max = int(df['sex'].max())
 
 resultado = ['Sim', 'Não']
 
-st.text('Idade por categorias')
-st.text('1: 12-17 anos;\n2: 18-25 anos.')
+st.sidebar.title('Idade por categorias')
+st.sidebar.write('1: 12-17 anos')
+st.sidebar.write('2: 18-25 anos')
+st.sidebar.write('3: 26-34 anos')
+st.sidebar.write('4: 35-49 anos')
+st.sidebar.write('5: 50-64 anos')
+st.sidebar.write('6: 65 anos ou mais')
+
+st.sidebar.title('Ausência pai e mãe')
+st.sidebar.write('1: Sim, o pai/mãe está na casa')
+st.sidebar.write('2: Não, o pai/mãe não está na casa')
+st.sidebar.write('3: Não sabe se o pai/mãe está ou não presente')
+st.sidebar.write('4: participante tem 18 anos ou mais')
+
+st.sidebar.title('Renda')
+st.sidebar.write('1: Menor que 20 mil')
+st.sidebar.write('2: Entre 20 e 49 mil')
+st.sidebar.write('3: Entre 50 a 74 mil')
+st.sidebar.write('4: Maior que 75 mil')
+
+st.sidebar.title('Usuários')
+st.sidebar.write('0: não faz o uso')
+st.sidebar.write('1: referente ao uso')
+
+
 age_count = df['age'].unique()
 age_min = int(df['age'].min())
 age_max = int(df['age'].max())
@@ -129,23 +132,7 @@ uso_heroina = [st.number_input('A pessoa faz o uso de heroína? ', step=1, value
 uso_alcool = [st.number_input('A pessoa consome alcool? ', step=1, value=0, max_value=1)]
 uso_cigarro = [st.number_input('A pessoa consome cigarros? ', step=1, value=0, max_value=1)]
 uso_cocaina = [st.number_input('A pessoa faz o uso de cocaina? ', step=1, value=0, max_value=1)]
-a=np.array([[gender,age,renda_registro,ausencia_mae,ausencia_mae,uso_meta,uso_maconha, uso_heroina, uso_alcool, uso_cigarro, uso_cocaina]])
-
 pd.get_dummies(df[quali])
-
-# condicaoidade = df['age']=='1'
-# UsaSim, UsaNao =  df[condicaoidade] , df[~condicaoidade]
-
-# df = UsaNao
-# condicao = df['father']='1', '2'
-# condicao2 = df['mother']='1', '2'
-# condicao3 = df['education']='2', '4'
-# UsaNao_paipresente = df[condicao]
-# UsaNao_paiausente = df[~condicao]
-# UsaNao_maepresente = df[condicao2]
-# UsaNao_maeausente = df[~condicao2]
-# UsaNao_edalta = df[condicao3]
-# UsaNao_edbaixa= df[~condicao3]
 
 vals = ['0',  #pai_presente
         # '0',  #pai_ausente
@@ -170,9 +157,7 @@ vals = ['0',  #pai_presente
         '0' #uso alcool
         # 0 #NAO USA
        ]
-
-# arv = tree.DecisionTreeRegressor() #árvore de regressão
-# arv.fit(dfQuali, target) #cria a árvore   
+ 
 
 #pai presente
 if ausencia_pai in ['2', '1']:
@@ -184,12 +169,6 @@ if ausencia_mae in ['2', '1']:
     vals[1] = '0'
 elif ausencia_mae in ['3', '4']:
     vals[1] = '1'
-
-# #renda 
-# if renda_registro in ['2', '1']: #menos de 49 mil
-#     vals[4] = 1
-# elif renda_registro in ['3', '4']: #mais de 50 mil
-#     vals[5] = 1
 
 # idade
 if age in ['2', '1']: #JOVEM
@@ -239,12 +218,7 @@ res = arv.predict([vals])
 
 st.write(int(res[0]))
 
-if int(res) == 0:
+if int(res[0]) == 0:
     st.write('A pessoa tem tendencia a não usar crack')
-    # st.write(int(res[0]))
 else:
     st.write("A pessoa tem tendencia a usar crack")
-    st.write(int(res[0]))
-
- 
-# vento_dia = st.selectbox('Está ventando?: ', vento)
